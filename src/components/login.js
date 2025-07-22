@@ -12,10 +12,12 @@ const Login = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", form);
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, form);
+
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
@@ -27,11 +29,14 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = async (credentialResponse) => {
+const handleGoogleLogin = async (credentialResponse) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/google-login", {
-        token: credentialResponse.credential,
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/google-login`,
+        {
+          token: credentialResponse.credential,
+        }
+      );
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -67,7 +72,8 @@ const Login = () => {
         <p>OR</p>
         <GoogleLogin
           onSuccess={handleGoogleLogin}
-          onError={() => alert("Google Sign In Error")}/>
+          onError={() => alert("Google Sign In Error")}
+        />
       </div>
 
       <p style={{ textAlign: "center", marginTop: "10px" }}>
@@ -77,4 +83,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login;
