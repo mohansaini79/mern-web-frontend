@@ -36,13 +36,17 @@ const Signup = () => {
 
     // ✅ Strong Password check
     if (password.length < 8) {
-      alert
-        ("Password must be at least 8 characters");
+      alert("Password must be at least 8 characters");
       return;
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", form);
+       const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/google-login`,
+        {
+          token: credentialResponse.credential,
+        }
+      );
 
       if (res.status === 201) {
         alert("Signup successful! Redirecting to login...");
