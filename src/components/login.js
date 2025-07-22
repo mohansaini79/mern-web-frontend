@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
 import "../App.css";
 
 const Login = () => {
@@ -29,25 +28,9 @@ const handleSubmit = async (e) => {
     }
   };
 
-const handleGoogleLogin = async (credentialResponse) => {
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/auth/google-login`,
-        {
-          token: credentialResponse.credential,
-        }
-      );
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-
-      alert("Google Login Successful!");
-      navigate("/dashboard");
-    } catch (err) {
-      console.error("Google Login Error:", err);
-      alert("Google Login Failed");
-    }
-  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -68,12 +51,8 @@ const handleGoogleLogin = async (credentialResponse) => {
       />
       <button type="submit">Login</button>
 
-      <div className="google-login-wrapper">
-        <p>OR</p>
-        <GoogleLogin
-          onSuccess={handleGoogleLogin}
-          onError={() => alert("Google Sign In Error")}
-        />
+
+       
       </div>
 
       <p style={{ textAlign: "center", marginTop: "10px" }}>
